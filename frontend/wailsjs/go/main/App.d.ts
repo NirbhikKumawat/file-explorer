@@ -4,6 +4,10 @@ import {main} from '../models';
 
 export function GetHomeDir():Promise<string>;
 
+export function GetParentDirectory(arg1:string):Promise<string>;
+
 export function Greet(arg1:string):Promise<string>;
+
+export function JoinPath(arg1:string,arg2:string):Promise<string>;
 
 export function ListDirectory(arg1:string):Promise<Array<main.FileEntry>>;

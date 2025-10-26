@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"os/user"
+	"path/filepath"
 )
 
 // App struct
@@ -58,4 +59,12 @@ func (a *App) ListDirectory(path string) ([]FileEntry, error) {
 		})
 	}
 	return files, nil
+}
+
+func (a *App) JoinPath(path string, name string) string {
+	return filepath.Join(path, name)
+}
+
+func (a *App) GetParentDirectory(path string) string {
+	return filepath.Dir(path)
 }

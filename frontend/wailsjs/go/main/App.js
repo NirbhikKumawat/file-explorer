@@ -6,8 +6,16 @@ export function GetHomeDir() {
   return window['go']['main']['App']['GetHomeDir']();
 }
 
+export function GetParentDirectory(arg1) {
+  return window['go']['main']['App']['GetParentDirectory'](arg1);
+}
+
 export function Greet(arg1) {
   return window['go']['main']['App']['Greet'](arg1);
+}
+
+export function JoinPath(arg1, arg2) {
+  return window['go']['main']['App']['JoinPath'](arg1, arg2);
 }
 
 export function ListDirectory(arg1) {
