@@ -4,12 +4,18 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"os/user"
 )
 
 // App struct
 type App struct {
 	ctx context.Context
+}
+
+type FileEntry struct {
+	Name        string `json:"name"`
+	IsDirectory bool   `json:"isDirectory"`
 }
 
 // NewApp creates a new App application struct
@@ -36,4 +42,20 @@ func (a *App) GetHomeDir() string {
 	}
 	return usr.HomeDir
 
+}
+
+func (a *App) ListDirectory(path string) ([]FileEntry, error) {
+	entries, err := os.ReadDir(path)
+	if err != nil {
+		log.Printf("Error reading the directory: %v", err)
+		return nil, err
+	}
+	var files []FileEntry
+	for _, entry := range entries {
+		files = append(files, FileEntry{
+			Name:        entry.Name(),
+			IsDirectory: entry.IsDir(),
+		})
+	}
+	return files, nil
 }
