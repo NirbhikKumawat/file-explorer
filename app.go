@@ -7,6 +7,8 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
+
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 // App struct
@@ -67,4 +69,8 @@ func (a *App) JoinPath(path string, name string) string {
 
 func (a *App) GetParentDirectory(path string) string {
 	return filepath.Dir(path)
+}
+
+func (a *App) OpenFile(path string) {
+	runtime.BrowserOpenURL(a.ctx, path)
 }

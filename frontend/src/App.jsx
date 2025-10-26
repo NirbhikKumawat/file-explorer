@@ -3,7 +3,8 @@ import './App.css';
 import {GetHomeDir,
     ListDirectory,
     JoinPath,
-    GetParentDirectory
+    GetParentDirectory,
+    OpenFile
 } from '../wailsjs/go/main/App.js'
 
 function App() {
@@ -34,13 +35,14 @@ function App() {
 
     }, []);
     const handleEntryClick = (file)=>{
-        if(!file.isDirectory){
-            console.log("File opening will be added in next update",file.name);
-            return;
-        }
         JoinPath(currentPath,file.name)
             .then(newPath =>{
-                loadDirectory(newPath)
+                if(file.isDirectory){
+                    loadDirectory(newPath);
+                }else{
+                    console.log("Opening file:",newPath);
+                    OpenFile(newPath)
+                }
             })
     }
 

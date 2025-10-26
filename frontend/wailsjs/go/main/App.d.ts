@@ -11,3 +11,5 @@ export function Greet(arg1:string):Promise<string>;
 export function JoinPath(arg1:string,arg2:string):Promise<string>;
 
 export function ListDirectory(arg1:string):Promise<Array<main.FileEntry>>;
+
+export function OpenFile(arg1:string):Promise<void>;
