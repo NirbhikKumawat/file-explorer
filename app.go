@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
+	"time"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
@@ -17,8 +18,10 @@ type App struct {
 }
 
 type FileEntry struct {
-	Name        string `json:"name"`
-	IsDirectory bool   `json:"isDirectory"`
+	Name        string    `json:"name"`
+	IsDirectory bool      `json:"isDirectory"`
+	Size        int64     `json:"size"`
+	ModTime     time.Time `json:"modTime"`
 }
 
 // NewApp creates a new App application struct
@@ -55,9 +58,16 @@ func (a *App) ListDirectory(path string) ([]FileEntry, error) {
 	}
 	var files []FileEntry
 	for _, entry := range entries {
+		info, err := entry.Info()
+		if err != nil {
+			log.Printf("Error getting file info: %v", err)
+			return nil, err
+		}
 		files = append(files, FileEntry{
 			Name:        entry.Name(),
 			IsDirectory: entry.IsDir(),
+			Size:        info.Size(),
+			ModTime:     info.ModTime(),
 		})
 	}
 	return files, nil

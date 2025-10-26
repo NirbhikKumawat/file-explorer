@@ -7,6 +7,19 @@ import {GetHomeDir,
     OpenFile
 } from '../wailsjs/go/main/App.js'
 
+function formatBytes(bytes,decimals =2){
+    if(bytes ===0) return '0 Bytes';
+    const k =1024;
+    const dm = decimals < 0?0:decimals;
+    const sizes = ['Bytes','KB','MB','GB','TB'];
+    const i =Math.floor(Math.log(bytes)/Math.log(k));
+    return parseFloat((bytes/Math.pow(k,i)).toFixed(dm))+ ' '+sizes[i];
+}
+
+function formatDate(dateString){
+    const date = new Date(dateString);
+    return date.toLocaleString();
+}
 function App() {
     const [currentPath,setCurrentPath] = useState("Loading...");
     const [error,setError] = useState("");
@@ -69,7 +82,13 @@ function App() {
                         <span className="icon">
                             {file.isDirectory ? '📁':'📄'}
                         </span>
-                        {file.name}
+                        <span className="file-name">{file.name}</span>
+                        {!file.isDirectory &&(
+                            <>
+                                <span className="file-size">{formatBytes(file.size)}</span>
+                            <span className="file-modtime">{formatDate(file.modTime)}</span>
+                            </>
+                        )}
                     </li>
                 ))}
             </ul>
