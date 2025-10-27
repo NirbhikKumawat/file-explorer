@@ -24,8 +24,9 @@ function App() {
     const [currentPath,setCurrentPath] = useState("Loading...");
     const [error,setError] = useState("");
     const [files,setFiles] = useState([]);
-    const loadDirectory =(path)=>{
-        ListDirectory(path)
+    const [showHidden,setShowHidden]=useState(false);
+    const loadDirectory =(path,hidden)=>{
+        ListDirectory(path,hidden)
             .then(fileList=>{
                 setFiles(fileList);
                 setCurrentPath(path);
@@ -34,24 +35,15 @@ function App() {
     }
     useEffect(() => {
         GetHomeDir().then(path => {
-            setCurrentPath(path);
-            ListDirectory(path)
-                .then(fileList=>{
-                setFiles(fileList);
+            loadDirectory(path,showHidden)
             })
-                .catch(err =>{
-                    console.error("Error listing directory:", err);
-                    setError(err);
-                });
+        },[showHidden]);
 
-        });
-
-    }, []);
     const handleEntryClick = (file)=>{
         JoinPath(currentPath,file.name)
             .then(newPath =>{
                 if(file.isDirectory){
-                    loadDirectory(newPath);
+                    loadDirectory(newPath,showHidden);
                 }else{
                     console.log("Opening file:",newPath);
                     OpenFile(newPath)
@@ -66,6 +58,10 @@ function App() {
             });
     }
 
+    const handleShowHiddenChange = (e) => {
+        setShowHidden(e.target.checked);
+    }
+
     return (
         <div id="App">
             <h1>File Explorer</h1>
@@ -74,6 +70,12 @@ function App() {
                 <input type="text" value={currentPath} readOnly/>
             </div>
 
+            <div className="controls">
+                <label>
+                    <input type="checkbox" checked={showHidden} onChange={handleShowHiddenChange}/>
+                    Show Hidden Files
+                </label>
+            </div>
             {error && <div className="error">Error: {error}</div>}
 
             <ul className="file-list">

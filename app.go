@@ -50,7 +50,7 @@ func (a *App) GetHomeDir() string {
 
 }
 
-func (a *App) ListDirectory(path string) ([]FileEntry, error) {
+func (a *App) ListDirectory(path string, showHidden bool) ([]FileEntry, error) {
 	entries, err := os.ReadDir(path)
 	if err != nil {
 		log.Printf("Error reading the directory: %v", err)
@@ -58,6 +58,9 @@ func (a *App) ListDirectory(path string) ([]FileEntry, error) {
 	}
 	var files []FileEntry
 	for _, entry := range entries {
+		if !showHidden && entry.Name()[0] == '.' {
+			continue
+		}
 		info, err := entry.Info()
 		if err != nil {
 			log.Printf("Error getting file info: %v", err)
