@@ -87,3 +87,13 @@ func (a *App) GetParentDirectory(path string) string {
 func (a *App) OpenFile(path string) {
 	runtime.BrowserOpenURL(a.ctx, path)
 }
+
+func (a *App) CreateFolder(currentPath string, folderName string) error {
+	fullPath := filepath.Join(currentPath, folderName)
+	err := os.Mkdir(fullPath, 0755)
+	if err != nil {
+		log.Printf("Error creating directory: %v", err)
+		return err
+	}
+	return nil
+}

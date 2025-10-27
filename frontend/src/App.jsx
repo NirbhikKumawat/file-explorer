@@ -4,7 +4,8 @@ import {GetHomeDir,
     ListDirectory,
     JoinPath,
     GetParentDirectory,
-    OpenFile
+    OpenFile,
+    CreateFolder
 } from '../wailsjs/go/main/App.js'
 
 function formatBytes(bytes,decimals =2){
@@ -62,12 +63,27 @@ function App() {
         setShowHidden(e.target.checked);
     }
 
+    const handleNewFolder = () =>{
+        const folderName = prompt("Enter new folder name:");
+        if(folderName){
+            CreateFolder(currentPath,folderName)
+                .then(()=>{
+                    setError("");
+                    loadDirectory(currentPath,showHidden);
+                })
+                .catch(err=>{
+                    setError(err);
+                });
+        }
+    }
+
     return (
         <div id="App">
             <h1>File Explorer</h1>
             <div className="nav-bar">
                 <button onClick={goBack}>Back</button>
                 <input type="text" value={currentPath} readOnly/>
+                <button onClick={handleNewFolder}>NewFolder</button>
             </div>
 
             <div className="controls">
