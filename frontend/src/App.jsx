@@ -19,7 +19,7 @@ function App() {
             <img src={logo} id="logo" alt="logo"/> {/*Image displayed*/}
             <div id="result" className="result">{resultText}</div> {/*message telling to enter name*/}
             <div id="input" className="input-box">
-                <input id="name" className="input" onChange={updateName} autoComplete="off" name="input" type="text"/>
+                <input id="name" className="input" onChange={updateName} autoComplete="off" name="input" type="text"/> {/*input box to add a name for greetiing*/}
                 <button className="btn" onClick={greet}>Greet</button>
             </div>
         </div>
