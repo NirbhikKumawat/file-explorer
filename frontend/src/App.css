@@ -68,20 +68,37 @@
     list-style: none;
     padding: 0;
     text-align: left;
-    max-width: 600px;
+    max-width: 800px;
     margin: 20px auto;
 }
 .file-list li{
-    padding: 8px 12px;
+    padding: 10px 12px;
     border-bottom: 1px solid #333;
     cursor: pointer;
-    display: flex;
+    display: grid;
+    grid-template-columns: 20px 1fr auto auto;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
     font-family: monospace;
 }
 .file-list li:hover{
     background-color: #3a3a3a;
+}
+.file-name{
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.file-size{
+    width: 100px;
+    text-align: right;
+    color: #aaa;
+}
+.file-modtime{
+    width: 200px;
+    text-align: right;
+    color: #aaa;
 }
 .nav-bar{
     display: flex;
@@ -107,4 +124,8 @@
     padding: 8px;
     border-radius: 5px;
     font-family: monospace;
+}
+.icon{
+    width: 20px;
+    text-align: center;
 }
