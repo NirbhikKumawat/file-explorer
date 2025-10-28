@@ -22,14 +22,14 @@
 }
 
 .input-box .btn {
-    width: 60px;
-    height: 30px;
-    line-height: 30px;
-    border-radius: 3px;
+    width: 60px;/*width*/
+    height: 30px;/*height*/
+    line-height: 30px;/*height of single line of text*/
+    border-radius: 3px;/*slightly rounded corners*/
     border: none;
-    margin: 0 0 0 20px;
-    padding: 0 8px;
-    cursor: pointer;
+    margin: 0 0 0 20px;/*20 px margin on the left*/
+    padding: 0 8px;/*8 px padding on left and right sides*/
+    cursor: pointer;/*changes pointer to hand when hovered*/
 }
 
 .input-box .btn:hover {
@@ -38,22 +38,22 @@
 }
 
 .input-box .input {
-    border: none;
-    border-radius: 3px;
-    outline: none;
-    height: 30px;
+    border: none; /* no borders*/
+    border-radius: 3px;/*slightly rounded corners*/
+    outline: none;/* removes the highlight that browser add when input is clicked*/
+    height: 30px;/*fixed height*/
     line-height: 30px;
-    padding: 0 10px;
-    background-color: rgba(240, 240, 240, 1);
+    padding: 0 10px;/* adds 10 pixels of space on left and right sides,so text doesnt touch the edges*/
+    background-color: rgba(240, 240, 240, 1);/*default background color*/
     -webkit-font-smoothing: antialiased;
 }
 
-.input-box .input:hover {
+.input-box .input:hover { /*when the input box is hovered*/
     border: none;
     background-color: rgba(255, 255, 255, 1);
 }
 
-.input-box .input:focus {
+.input-box .input:focus {/*when the input box is focused*/
     border: none;
     background-color: rgba(255, 255, 255, 1);
 }
