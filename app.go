@@ -97,3 +97,12 @@ func (a *App) CreateFolder(currentPath string, folderName string) error {
 	}
 	return nil
 }
+func (a *App) CreateFile(currentPath string, fileName string) error {
+	fullPath := filepath.Join(currentPath, fileName)
+	_, err := os.Create(fullPath)
+	if err != nil {
+		log.Printf("Error creating file: %v", err)
+		return err
+	}
+	return nil
+}

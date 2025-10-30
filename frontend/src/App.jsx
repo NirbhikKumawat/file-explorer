@@ -5,7 +5,8 @@ import {GetHomeDir,
     JoinPath,
     GetParentDirectory,
     OpenFile,
-    CreateFolder
+    CreateFolder,
+    CreateFile
 } from '../wailsjs/go/main/App.js'
 
 function formatBytes(bytes,decimals =2){
@@ -76,6 +77,19 @@ function App() {
                 });
         }
     }
+    const handleNewFile = () =>{
+        const fileName = prompt("Enter the name of the file:");
+        if(fileName){
+            CreateFile(currentPath,fileName)
+                .then(()=>{
+                    setError("");
+                    loadDirectory(currentPath,showHidden);
+                })
+                .catch(err=>{
+                    setError(err);
+                });
+        }
+    }
 
     return (
         <div id="App">
@@ -83,7 +97,8 @@ function App() {
             <div className="nav-bar">
                 <button onClick={goBack}>Back</button>
                 <input type="text" value={currentPath} readOnly/>
-                <button onClick={handleNewFolder}>NewFolder</button>
+                <button onClick={handleNewFolder}>New Folder</button>
+                <button onClick={handleNewFile}>New File</button>
             </div>
 
             <div className="controls">
