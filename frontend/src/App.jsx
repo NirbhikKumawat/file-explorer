@@ -7,7 +7,8 @@ import {GetHomeDir,
     OpenFile,
     CreateFolder,
     CreateFile,
-    RenameEntry
+    RenameEntry,
+    MoveEntry
 } from '../wailsjs/go/main/App.js'
 
 function formatBytes(bytes,decimals =2){
@@ -28,6 +29,7 @@ function App() {
     const [error,setError] = useState("");
     const [files,setFiles] = useState([]);
     const [showHidden,setShowHidden]=useState(false);
+    const [cutItem,setCutItem] = useState(null);
     const loadDirectory =(path,hidden)=>{
         ListDirectory(path,hidden)
             .then(fileList=>{
@@ -105,6 +107,41 @@ function App() {
                 });
         }
     }
+    const handleCut = (event,file)=>{
+        event.stopPropagation();
+        JoinPath(currentPath,file.name)
+            .then(fullPath=>{
+                setCutItem({fullPath: fullPath,
+                    name: file.name
+                });
+                setError(`Cut: ${file.name}. Navigate to a new folder and click Paste`)
+            })
+            .catch(
+                err=> setError(err));
+    }
+    const handlePaste = () =>{
+        if(!cutItem){
+            return;
+        }
+        GetParentDirectory(cutItem.fullPath)
+            .then(parentDir=>{
+                if(parentDir===currentPath){
+                    setCutItem(null);
+                    setError("Useless Operation,cutting and pasting the file at same location");
+                    return;
+                }
+                MoveEntry(cutItem.fullPath,currentPath,cutItem.name)
+                    .then(()=>{
+                        setCutItem(null);
+                        setError("");
+                        loadDirectory(currentPath,showHidden);
+                    })
+                    .catch(err=>{
+                        setError(err);
+                        setCutItem(null);
+                    })
+            })
+    }
 
     return (
         <div id="App">
@@ -114,6 +151,9 @@ function App() {
                 <input type="text" value={currentPath} readOnly/>
                 <button onClick={handleNewFolder}>New Folder</button>
                 <button onClick={handleNewFile}>New File</button>
+                <button disabled={!cutItem} onClick={handlePaste}>
+                    Paste
+                </button>
             </div>
 
             <div className="controls">
@@ -141,6 +181,9 @@ function App() {
                         </div>
                         <button className="rename-btn" onClick={(e)=> handleRename(e,file)}>
                             Rename
+                        </button>
+                        <button className="cut-btn" onClick={(e)=>handleCut(e,file)}>
+                            Cut
                         </button>
                     </li>
                 ))}

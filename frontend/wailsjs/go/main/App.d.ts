@@ -16,6 +16,8 @@ export function JoinPath(arg1:string,arg2:string):Promise<string>;
 
 export function ListDirectory(arg1:string,arg2:boolean):Promise<Array<main.FileEntry>>;
 
+export function MoveEntry(arg1:string,arg2:string,arg3:string):Promise<void>;
+
 export function OpenFile(arg1:string):Promise<void>;
 
 export function RenameEntry(arg1:string,arg2:string,arg3:string):Promise<void>;

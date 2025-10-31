@@ -115,5 +115,14 @@ func (a *App) RenameEntry(currentPath string, oldName string, newName string) er
 		return err
 	}
 	return nil
+}
 
+func (a *App) MoveEntry(sourcePath string, destinationDir string, entryName string) error {
+	destinationPath := filepath.Join(destinationDir, entryName)
+	err := os.Rename(sourcePath, destinationPath)
+	if err != nil {
+		log.Printf("Error moving file: %v", err)
+		return err
+	}
+	return nil
 }
