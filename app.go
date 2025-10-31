@@ -126,3 +126,25 @@ func (a *App) MoveEntry(sourcePath string, destinationDir string, entryName stri
 	}
 	return nil
 }
+func (a *App) CopyFile(sourcePath string, destinationDir string, entryName string) error {
+	sourceInfo, err := os.Stat(sourcePath)
+	if err != nil {
+		log.Printf("Error getting file info: %v", err)
+		return err
+	}
+	if sourceInfo.IsDir() {
+		return fmt.Errorf("copying directories will be added in the next updates")
+	}
+	data, err := os.ReadFile(sourcePath)
+	if err != nil {
+		log.Printf("Error reading file: %v", err)
+		return err
+	}
+	destinationPath := filepath.Join(destinationDir, entryName)
+	err = os.WriteFile(destinationPath, data, sourceInfo.Mode())
+	if err != nil {
+		log.Printf("Error writing file: %v", err)
+		return err
+	}
+	return nil
+}
