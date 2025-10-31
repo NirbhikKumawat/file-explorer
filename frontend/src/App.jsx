@@ -6,7 +6,8 @@ import {GetHomeDir,
     GetParentDirectory,
     OpenFile,
     CreateFolder,
-    CreateFile
+    CreateFile,
+    RenameEntry
 } from '../wailsjs/go/main/App.js'
 
 function formatBytes(bytes,decimals =2){
@@ -59,6 +60,20 @@ function App() {
                 loadDirectory(parentPath);
             });
     }
+    const handleRename = (event,file) =>{
+        event.stopPropagation();
+        const newName = prompt("Enter new name:",file.name);
+        if (newName && newName!==file.name){
+            RenameEntry(currentPath,file.name,newName)
+                .then(()=>{
+                    setError("");
+                    loadDirectory(currentPath,showHidden);
+                })
+                .catch(err=>{
+                    setError(err);
+                });
+            }
+        }
 
     const handleShowHiddenChange = (e) => {
         setShowHidden(e.target.checked);
@@ -111,7 +126,8 @@ function App() {
 
             <ul className="file-list">
                 {files.map(file =>(
-                    <li key={file.name} onClick={()=>handleEntryClick(file)}>
+                    <li key={file.name}>
+                        <div className="file-item-main" onClick={()=>handleEntryClick(file)}>
                         <span className="icon">
                             {file.isDirectory ? '📁':'📄'}
                         </span>
@@ -122,6 +138,10 @@ function App() {
                             <span className="file-modtime">{formatDate(file.modTime)}</span>
                             </>
                         )}
+                        </div>
+                        <button className="rename-btn" onClick={(e)=> handleRename(e,file)}>
+                            Rename
+                        </button>
                     </li>
                 ))}
             </ul>

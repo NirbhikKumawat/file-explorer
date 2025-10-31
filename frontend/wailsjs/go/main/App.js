@@ -33,3 +33,7 @@ export function ListDirectory(arg1, arg2) {
 export function OpenFile(arg1) {
   return window['go']['main']['App']['OpenFile'](arg1);
 }
+
+export function RenameEntry(arg1, arg2, arg3) {
+  return window['go']['main']['App']['RenameEntry'](arg1, arg2, arg3);
+}

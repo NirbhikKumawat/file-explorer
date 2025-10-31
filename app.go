@@ -106,3 +106,14 @@ func (a *App) CreateFile(currentPath string, fileName string) error {
 	}
 	return nil
 }
+func (a *App) RenameEntry(currentPath string, oldName string, newName string) error {
+	oldPath := filepath.Join(currentPath, oldName)
+	newPath := filepath.Join(currentPath, newName)
+	err := os.Rename(oldPath, newPath)
+	if err != nil {
+		log.Printf("Error renaming file: %v", err)
+		return err
+	}
+	return nil
+
+}
